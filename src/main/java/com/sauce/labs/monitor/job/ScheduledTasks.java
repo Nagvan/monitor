@@ -29,7 +29,10 @@ public class ScheduledTasks {
     private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat(CommonConstant.DATE_PATTERN);
 
-
+    /**
+     * Scheduler to check health of a server
+     * @throws IOException
+     */
     @Scheduled(fixedRate = 5000)
     public void healthCheck() throws IOException {
         StringBuffer healthStatus = new StringBuffer();
@@ -51,6 +54,9 @@ public class ScheduledTasks {
             healthStatus = new StringBuffer(CommonConstant.STATUS_ERROR);
             log.error(CommonConstant.CONNECTION_ERROR);
         }
+        /**
+         * Store the status in temp file.
+         */
         try {
             File monitorLog = File.createTempFile(CommonConstant.FILE_NAME, CommonConstant.EXTENSION);
             BufferedWriter fileWriter = new BufferedWriter(new FileWriter(monitorLog, true));
